@@ -19,13 +19,14 @@ const protect = (req, res, next) => {
         req.user = decoded;
 
         next();
-
     } catch (error) {
-        return res.status(401).json({
-            message: "Invalid or expired token"
-        });
+            console.log("JWT ERROR:", error.message);
+
+            return res.status(401).json({
+        message: "Invalid or expired token"
+    });
     }
-};
+    };
 
 const adminOnly = (req, res, next) => {
     if (!req.user || req.user.role !== "admin") {
