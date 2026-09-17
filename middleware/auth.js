@@ -1,12 +1,8 @@
 const jwt = require("jsonwebtoken");
 
 const protect = (req, res, next) => {
-    console.log("AUTH HEADER:", req.headers.authorization);
-
     try {
         const token = req.headers.authorization?.split(" ")[1];
-
-        console.log("TOKEN EXISTS:", !!token);
 
         if (!token) {
             return res.status(401).json({
@@ -18,16 +14,12 @@ const protect = (req, res, next) => {
             token,
             process.env.JWT_SECRET
         );
- 
-        console.log("JWT VERIFIED:", decoded);
 
         req.user = decoded;
 
         next();
 
     } catch (error) {
-        console.log("JWT ERROR:", error.message);
-
         return res.status(401).json({
             message: "Invalid or expired token"
         });
